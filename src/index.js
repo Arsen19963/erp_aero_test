@@ -11,6 +11,8 @@ const fs = require("fs").promises;
 require("dotenv").config();
 const app = express();
 
+const sequelize = require("./config/database");
+
 app.use(
   cors({
     origin:
@@ -27,6 +29,9 @@ const PORT = process.env.PORT || 5680;
 
 async function startServer() {
   try {
+    await sequelize.sync();
+    console.log("Database synchronized successfully");
+
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
     });
